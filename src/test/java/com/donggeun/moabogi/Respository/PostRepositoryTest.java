@@ -7,11 +7,13 @@
 package com.donggeun.moabogi.Respository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.CollectionUtils;
 
 import com.donggeun.moabogi.Model.CompanyType;
 import com.donggeun.moabogi.Model.Post;
@@ -41,13 +43,13 @@ public class PostRepositoryTest {
 	}
 
 	@Test
-	public void save(){
+	public void testSave(){
 		Post post = createMock();
 		postRepository.save(post);
 	}
 
 	@Test
-	public void get(){
+	public void testGet(){
 		Post post = postRepository.save(createMock());
 
 		Assertions.assertNotEquals(0, post.getId());
@@ -56,7 +58,25 @@ public class PostRepositoryTest {
 
 		Assertions.assertEquals(post.getId(), fetchedPost.getId());
 
+	}
 
+	@Test
+	public void count(){
+		testGet();
+		long count = postRepository.count();
+
+		Assertions.assertEquals(1, count);
+	}
+
+	@Test
+	public void testFindByWrittenDates(){
+		Post post = createMock();
+		postRepository.save(post);
+
+		List<Post> fetchedPost = postRepository.findPostsByWrittenDateTimeIn(List.of(post.getWrittenDateTime()));
+
+		Assertions.assertFalse(CollectionUtils.isEmpty(fetchedPost));
+		Assertions.assertEquals(post.getWrittenDateTime(), fetchedPost.get(0).getWrittenDateTime());
 	}
 
 }

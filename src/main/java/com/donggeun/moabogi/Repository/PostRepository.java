@@ -6,6 +6,7 @@
  */
 package com.donggeun.moabogi.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,6 @@ import com.donggeun.moabogi.Model.Post;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
 	List<Post> findPostsByIdIn(List<Long> ids);
+
+	List<Post> findPostsByWrittenDateTimeIn(List<LocalDateTime> localDateTimes);
 }

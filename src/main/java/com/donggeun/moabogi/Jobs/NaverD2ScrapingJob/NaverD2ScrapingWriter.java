@@ -16,12 +16,14 @@ import com.donggeun.moabogi.Model.Post;
 import com.donggeun.moabogi.Service.PostService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Donggeun.kim
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class NaverD2ScrapingWriter implements ItemWriter<List<Post>> {
 
 	private final PostService postService;
@@ -33,5 +35,7 @@ public class NaverD2ScrapingWriter implements ItemWriter<List<Post>> {
 			.collect(Collectors.toList());
 
 		postService.save(posts);
+
+		log.info("naver post saved. item count : {}", items.size());
 	}
 }

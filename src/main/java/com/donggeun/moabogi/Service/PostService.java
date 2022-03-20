@@ -6,6 +6,7 @@
  */
 package com.donggeun.moabogi.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,6 +41,18 @@ public class PostService {
 		}
 
 		return postRepository.findPostsByIdIn(ids);
+	}
+
+	public List<Post> getPostsByWrittenDateTime(List<LocalDateTime> writtenTimes){
+		if(CollectionUtils.isEmpty(writtenTimes)){
+			return Collections.emptyList();
+		}
+
+		return postRepository.findPostsByWrittenDateTimeIn(writtenTimes);
+	}
+
+	public long getCount(){
+		return postRepository.count();
 	}
 
 }

@@ -13,7 +13,10 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -59,7 +62,7 @@ public class NaverD2ScrapingJob {
 
 				@Override
 				public void afterJob(JobExecution jobExecution) {
-					log.info("============ Successful executed NaverD2Scraping Job ==========");
+					log.info("============ Completed executed NaverD2Scraping Job [job Status : {} ] ==========", jobExecution.getStatus());
 				}
 			})
 			.build();

@@ -14,16 +14,17 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Rollback;
 
 /**
  * @author Donggeun.kim
  */
 @SpringBootTest
+@SpringBatchTest
 @Import({NaverD2ScrapingJob.class})
 public class NaverD2scrapingJobTest {
 
@@ -35,7 +36,6 @@ public class NaverD2scrapingJobTest {
 	Job naverD2ScrapingJob;
 
 	@Test
-	@Rollback(value = false)
 	public void doJob() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 		jobLauncher.run(naverD2ScrapingJob, new JobParameters());
 	}

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import com.donggeun.moabogi.Service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -33,7 +34,7 @@ import lombok.Setter;
 public class NaverD2ScrapingReader extends AbstractItemCountingItemStreamItemReader<NaverD2Posts> {
 
 	@Value("#{jobParameters['isFullScan']}")
-	private boolean isFullScan;
+	private String isFullScan;
 
 	private ObjectMapper objectMapper;
 
@@ -72,7 +73,7 @@ public class NaverD2ScrapingReader extends AbstractItemCountingItemStreamItemRea
 			long savedPostCount = postService.getCount();
 
 			int skipedPageCount = (int)((totalPostCount - savedPostCount) / NAVER_D2_FETCH_SIZE);
-			jumpToItem(skipedPageCount);
+			setCurrentItemCount(skipedPageCount);
 		}
 	}
 
@@ -93,7 +94,7 @@ public class NaverD2ScrapingReader extends AbstractItemCountingItemStreamItemRea
 	 * @return true : 처음부터 끝까지 스캔 , false : 마지막 페이지만 읽어들인다.
 	 */
 	private boolean isFullScan() {
-		return isFullScan;
+		return StringUtils.isNotEmpty(isFullScan) && Boolean.parseBoolean(isFullScan);
 	}
 
 }

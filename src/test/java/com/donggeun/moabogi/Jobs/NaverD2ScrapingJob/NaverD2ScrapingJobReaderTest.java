@@ -7,6 +7,7 @@
 package com.donggeun.moabogi.Jobs.NaverD2ScrapingJob;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Donggeun.kim
  */
 @SpringBootTest
+@SpringBatchTest
 @Slf4j
 public class NaverD2ScrapingJobReaderTest {
 

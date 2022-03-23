@@ -8,7 +8,9 @@ package com.donggeun.moabogi.Jobs.NaverD2ScrapingJob;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -37,6 +39,7 @@ public class NaverD2scrapingJobTest {
 
 	@Test
 	public void doJob() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
-		jobLauncher.run(naverD2ScrapingJob, new JobParameters());
+		JobParameters jobParameters = new JobParametersBuilder().addString("isFullScan", "true").toJobParameters();
+		jobLauncher.run(naverD2ScrapingJob, jobParameters);
 	}
 }

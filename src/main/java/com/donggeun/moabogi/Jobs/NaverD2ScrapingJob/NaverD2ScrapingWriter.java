@@ -36,6 +36,6 @@ public class NaverD2ScrapingWriter implements ItemWriter<List<Post>> {
 
 		postService.save(posts);
 
-		log.info("naver post saved. item count : {}", items.size());
+		log.info("naver post saved. item count : {}", posts.size());
 	}
 }

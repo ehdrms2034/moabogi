@@ -13,10 +13,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -41,7 +38,7 @@ public class NaverD2ScrapingJob {
 	private final JobBuilderFactory jobBuilderFactory;
 
 	@Bean
-	public Step naverD2ScrapingStep(){
+	public Step naverD2ScrapingStep() {
 		return stepBuilderFactory.get("naverD2ScrapingStep")
 			.<NaverD2Posts, List<Post>>chunk(10)
 			.reader(naverD2ScrapingReader)
@@ -51,22 +48,24 @@ public class NaverD2ScrapingJob {
 	}
 
 	@Bean("naverD2ScrapJob")
-	public Job naverD2ScrapJob(){
+	public Job naverD2ScrapJob() {
+
+		JobExecutionListener loggingExecutionListener = new JobExecutionListener() {
+			@Override
+			public void beforeJob(JobExecution jobExecution) {
+				log.info("============ Start executed NaverD2Scraping Job ==========");
+			}
+
+			@Override
+			public void afterJob(JobExecution jobExecution) {
+				log.info("============ Completed executed NaverD2Scraping Job [job Status : {} ] ==========", jobExecution.getStatus());
+			}
+		};
+
 		return jobBuilderFactory.get("naverD2ScrapJob")
 			.start(naverD2ScrapingStep())
-			.listener(new JobExecutionListener() {
-				@Override
-				public void beforeJob(JobExecution jobExecution) {
-					log.info("============ Start executed NaverD2Scraping Job ==========");
-				}
-
-				@Override
-				public void afterJob(JobExecution jobExecution) {
-					log.info("============ Completed executed NaverD2Scraping Job [job Status : {} ] ==========", jobExecution.getStatus());
-				}
-			})
+			.listener(loggingExecutionListener)
 			.build();
 	}
-
 
 }
